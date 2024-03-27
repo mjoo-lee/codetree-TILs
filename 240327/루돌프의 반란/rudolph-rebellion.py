@@ -176,4 +176,4 @@ for t in range(1, m+1): #turn
             points[i] += 1
 
 for i in range(1, p+1):
-    print(point[i].end=" ")
+    print(points[i].end=" ")
