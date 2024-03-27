@@ -22,14 +22,14 @@ for _ in range(p): #산타 입력
     is_live[id] = True
 
 for t in range(1, m+1): #turn
-    closestX, closestY, closestIdx = float('int'), float('int'), 0
+    closestX, closestY, closestIdx = float('inf'), float('inf'), 0
 
     for i in range(1, p+1):
         if not is_live[i]:
             continue
 
         #루돌프에 가장 가까운 산타 찾기
-        currentBest = ((closestX - rudolf[0]) ** 2 + (closestY - rudolf[1]) ** 2, (-closestX, -closestY))
+        currentBest = ((closestX - rudolf[0]) ** 2 + (closestY - rudolf[1]) ** 2, (-closestX, -closestY)) #두번째는 뭐지? 
         currentValue = ((pos[i][0] - rudolf[0]) ** 2 + (pos[i][1] - rudolf[1]) ** 2, (-pos[i][0], -pos[i][1]))
 
         if currentValue < currentBest:
@@ -56,7 +56,7 @@ for t in range(1, m+1): #turn
 
     # 루돌프로 인해 충돌
     if rudolf[0] == closestX and rudolf[1] == closestY:
-        firstX = closestX + moveX * c
+        firstX = closestX + moveX * c #가장 가까운 산타 C만큼 이동
         firstY = closestY + moveY * c
         lastX, lastY = firstX, firstY
 
@@ -126,7 +126,7 @@ for t in range(1, m+1): #turn
                 stun[i] = t + 1
 
                 moveX = -dx[moveDir]
-                moveY = -dx[moveDir]
+                moveY = -dy[moveDir]
 
                 firstX = nx + moveX * d
                 firstY = ny + moveY * d
@@ -141,7 +141,7 @@ for t in range(1, m+1): #turn
                         lastY += moveY
 
                     #가장 마지막 위치에서 산타 한칸씩 옮김
-                    while lastX != firstX or lasY != firstY:
+                    while lastX != firstX or lastY != firstY:
                         beforeX = lastX - moveX
                         beforeY = lastY - moveY
                         
@@ -153,7 +153,7 @@ for t in range(1, m+1): #turn
                         if not is_inrange(lastX, lastY):
                             is_live[idx] = False
                         else:
-                            baord[lastX][lastY]= board[beforeX][beforeY] #한칸 이동
+                            board[lastX][lastY]= board[beforeX][beforeY] #한칸 이동
                             pos[idx] = (lastX, lastY)
                         
                         lastX, lastY = beforeX, beforeY
@@ -176,4 +176,4 @@ for t in range(1, m+1): #turn
             points[i] += 1
 
 for i in range(1, p+1):
-    print(points[i].end=" ")
+    print(points[i], end=" ")
