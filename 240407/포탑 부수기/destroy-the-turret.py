@@ -64,7 +64,8 @@ def attack(board, n, m, k):
     if laser:
         #print("레이저")
         #print("laser 경로:",path)
-        del path[0]
+        if path:
+            del path[0]
         targetR, targetC = port[0], port[1] 
         
         #중간 경로 공격
