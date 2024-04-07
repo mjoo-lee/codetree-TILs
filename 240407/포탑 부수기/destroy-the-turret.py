@@ -74,9 +74,11 @@ def attack(board, n, m, k):
         while path:
             attackR, attackC = path.popleft()
             board[attackR][attackC] -= halfPower
+            attacked[attackR][attackC] = k
 
         #최종 목표 공격
         board[targetR][targetC] -= Power
+        attacked[targetR][targetC] = k
 
     #2.포탄 공격
     if not laser:
@@ -105,9 +107,11 @@ def attack(board, n, m, k):
         while neighbor:
             attackR, attackC = neighbor.popleft()
             board[attackR][attackC] -= halfPower
+            attacked[attackR][attackC] = k
 
         #최종 목표 공격
         board[targetR][targetC] -= Power
+        attacked[targetR][targetC] = k
         
     #포탑 부서짐
     for n in range(1,N+1):
@@ -128,6 +132,7 @@ def countport(board):
 
 
 recent = [[0 for _ in range(M+1)] for _ in range(N+1)]
+attacked = [[0 for _ in range(M+1)] for _ in range(N+1)]
 
 for k in range(1,K+1):
     #print("처음 시작:", board)
@@ -147,7 +152,7 @@ for k in range(1,K+1):
     #4. 포탑 정비 (부서지지 않은 포탑 중 공격과 무관한 탑 공격력 + 1)
     for n in range(1,N+1):
         for m in range(1,M+1):
-            if recent[n][m] < k and board[n][m] > 0 and [n,m] != [targetR, targetC]:
+            if attacked[n][m] < k and board[n][m] > 0 and [n,m] != [targetR, targetC] and [n,m] != weakest:
                 board[n][m] += 1
     #print("recent:",recent)
     #print(k,"번째 턴 이후:",board)
