@@ -31,7 +31,7 @@ def move_players():
         
             if (nx,ny) == exit:
                 player_list[i] = (nx, ny)
-                move += abs(ny-ty)
+                move += abs(nx-tx)
                 cnt += 1
                 continue
             elif (nx,ny) != exit and maze[nx][ny] == 0: #이동 가능하면
