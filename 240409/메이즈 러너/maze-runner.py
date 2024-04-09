@@ -164,13 +164,13 @@ def rotate_traveler_and_exit():
 
     # 출구에도 회전을 진행합니다.
     ex, ey = exits
-    if sx <= ex and ex < sx + square_size and sy <= ey and ey < sy + square_size:
-        # Step 1. (sx, sy)를 (0, 0)으로 옮겨주는 변환을 진행합니다. 
-        ox, oy = ex - sx, ey - sy
-        # Step 2. 변환된 상태에서는 회전 이후의 좌표가 (x, y) . (y, square_n - x - 1)가 됩니다.
-        rx, ry = oy, square_size - ox - 1
-        # Step 3. 다시 (sx, sy)를 더해줍니다.
-        exits = (rx + sx, ry + sy)
+    #if sx <= ex and ex < sx + square_size and sy <= ey and ey < sy + square_size:
+    # Step 1. (sx, sy)를 (0, 0)으로 옮겨주는 변환을 진행합니다. 
+    ox, oy = ex - sx, ey - sy
+    # Step 2. 변환된 상태에서는 회전 이후의 좌표가 (x, y) . (y, square_n - x - 1)가 됩니다.
+    rx, ry = oy, square_size - ox - 1
+    # Step 3. 다시 (sx, sy)를 더해줍니다.
+    exits = (rx + sx, ry + sy)
 
 
 for _ in range(k):
