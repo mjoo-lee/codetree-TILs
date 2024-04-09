@@ -22,8 +22,7 @@ def bfs(board, startR, startC, targetR, targetC):
     while q:
         (curR, curC), temp = q.popleft()
         if curR == targetR and curC == targetC:
-            laser = True
-            return laser, temp 
+            return True, temp 
         
         for dr,dc in d:
             newR, newC = (curR + dr) % (N+1), (curC + dc) % (M+1)
@@ -36,6 +35,8 @@ def bfs(board, startR, startC, targetR, targetC):
                     q.append(([newR, newC], temp+[[newR, newC]]))
                 else:
                     q.append(([newR, newC], temp))
+            else: 
+                return False, temp
 
 
 def attack(board, n, m, k):
