@@ -141,7 +141,7 @@ for t in range(1, m + 1):
 
                     # 연쇄적으로 충돌이 일어난 가장 마지막 위치에서 시작해,
                     # 순차적으로 보드판에 있는 산타를 한칸씩 이동시킵니다.
-                    while lastX != firstX and lastY != firstY:
+                    while lastX != firstX or lastY != firstY:
                         beforeX = lastX - moveX
                         beforeY = lastY - moveY
 
