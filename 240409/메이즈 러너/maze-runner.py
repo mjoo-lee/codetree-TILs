@@ -120,20 +120,30 @@ def rotate_square():
             if board[x][y]: 
                 board[x][y] -= 1
 
-    # 정사각형을 시계방향으로 90' 회전합니다.
+    rotate = [[0] * square_size for _ in range(square_size)]
+    #print("초기",rotate)
     for x in range(sx, sx + square_size):
         for y in range(sy, sy + square_size):
-            # Step 1. (sx, sy)를 (0, 0)으로 옮겨주는 변환을 진행합니다. 
-            #ox, oy = x - sx, y - sy
-            # Step 2. 변환된 상태에서는 회전 이후의 좌표가 (x, y) . (y, square_n - x - 1)가 됩니다.
-            #rx, ry = oy, square_size - ox - 1
-            # Step 3. 다시 (sx, sy)를 더해줍니다.
-            next_board[y][square_size-x-1] = board[x][y]
+            rotate[x-sx][y-sy] = board[x][y]
+    #print(rotate)
+    rotate = [list(row) for row in zip(*rotate[::-1])]        
+    #print(rotate)
+            
+    # 정사각형을 시계방향으로 90' 회전합니다.
+    # for x in range(sx, sx + square_size):
+    #     for y in range(sy, sy + square_size):
+    #         # Step 1. (sx, sy)를 (0, 0)으로 옮겨주는 변환을 진행합니다. 
+    #         #ox, oy = x - sx, y - sy
+    #         # Step 2. 변환된 상태에서는 회전 이후의 좌표가 (x, y) . (y, square_n - x - 1)가 됩니다.
+    #         #rx, ry = oy, square_size - ox - 1
+    #         # Step 3. 다시 (sx, sy)를 더해줍니다.
+    #         #next_board[rx + sx][ry + sy] = board[x][y]
+    #         next_board[y - sy + sx][square_size - x + sx - 1 + sy] = board[x][y]
 
     # next_board 값을 현재 board에 옮겨줍니다.
     for x in range(sx, sx + square_size):
         for y in range(sy, sy + square_size):
-            board[x][y] = next_board[x][y]
+            board[x][y] = rotate[x-sx][y-sy]
 
 
 # 모든 참가자들 및 출구를 회전시킵니다.
