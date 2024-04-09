@@ -14,9 +14,10 @@ def selectWeakest(board):
     return port        
 
 def bfs(board, startR, startC, targetR, targetC):
-    laser = False
+    visited = set()
     q = deque()
     q.append(((startR, startC),[[startR, startC]]))
+    visited.add((startR, startC))
     d = [(0,1),(1,0),(0,-1),(-1,0)]
 
     while q:
@@ -25,18 +26,13 @@ def bfs(board, startR, startC, targetR, targetC):
             return True, temp 
         
         for dr,dc in d:
-            newR, newC = (curR + dr) % (N+1), (curC + dc) % (M+1)
-            if newR == 0:
-                newR = 1
-            if newC == 0:
-                newC = 1
-            if board[newR][newC] != 0:
-                if (newR, newC) != (targetR, targetC):
+            newR, newC = ((curR - 1 + dr) % N) + 1, ((curC - 1 + dc) % M) + 1
+            if board[newR][newC] > 0 and (newR, newC) not in visited:
                     q.append(([newR, newC], temp+[[newR, newC]]))
-                else:
-                    q.append(([newR, newC], temp))
-            else: 
-                return False, temp
+                    visited.add((newR,newC))
+       
+    return False, []
+            
 
 
 def attack(board, n, m, k):
@@ -49,7 +45,7 @@ def attack(board, n, m, k):
         for m in range(1,M+1):
             if [n,m] != weakest and (power, -time, -(port[0]+port[1]), -port[1]) < (board[n][m], -recent[n][m], -(n+m), -m,) and board[n][m] > 0:
                 power, port, time = board[n][m], [n,m], recent[n][m] #업데이트
-                #print("쎈거 고르는중:",port)
+    #print("쎈거:",port)
     
     #공격
     startR, startC = weakest[0], weakest[1]
@@ -58,14 +54,16 @@ def attack(board, n, m, k):
     laser, path = bfs(board, startR, startC, port[0], port[1])
     path = deque(path)
     if laser:
-        #print("레이저")
-        #print("laser 경로:",path)
-        del path[0]
+        # print("레이저")
+        # print("laser 경로:",path)
         targetR, targetC = port[0], port[1] 
         
         #중간 경로 공격
         while path:
             attackR, attackC = path.popleft()
+            if (attackR, attackC) == (startR, startC) or (attackR, attackC) == (port[0], port[1]):
+                continue
+            
             board[attackR][attackC] -= halfPower
             attacked[attackR][attackC] = k
 
@@ -81,17 +79,9 @@ def attack(board, n, m, k):
         d = [(-1,-1),(-1,0),(-1,1),(0,1),(1,1),(1,0),(1,-1),(0,-1)]
         neighbor = deque()
         for dr, dc in d:
-            neighR = (targetR + dr) % (N+1)
-            neighC = (targetC + dc) % (M+1)
-            if neighR == 0:
-                neighR = 1
-            elif neighR < 0:
-                neighR += (N+1) 
-            if neighC == 0:
-                neighC = 1
-            elif neighC < 0:
-                neighC += (C+1)
-            
+            neighR = (targetR + dr -1) % N + 1
+            neighC = (targetC + dc -1) % M + 1
+
             if [neighR, neighC] != port and board[neighR][neighC] != 0 and [neighR, neighC] not in neighbor: 
                 neighbor.append([neighR, neighC])
     
