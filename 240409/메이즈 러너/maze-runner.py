@@ -1,10 +1,12 @@
 N,M,K = map(int, input().split())
 
 maze = [[0 for _ in range(N+1)]] + [[0] + list(map(int, input().split())) for _ in range(N)]
+player_list = [(-1,-1)]
 for _ in range(M):
     player_list.append(tuple(map(int, input().split())))
 exit = tuple(map(int, input().split()))   
 maze[exit[0]][exit[1]] = -1    
+
 move = 0
 
 cnt = 0
