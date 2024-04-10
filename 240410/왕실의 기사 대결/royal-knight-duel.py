@@ -37,7 +37,7 @@ def check(idx, dir): # 큐로 바꿔보기
         curH, curW = shield[idx][0], shield[idx][1]
 
         #이 중 하나라도 걸리면 불가
-        if not (1<=curR<=L and 1<=curC<=L and 1<=curR+curH-1<=L and 1<=curC+curW-1<=L and (board[curR][curC] == 0 or board[curR][curC] == 1)):
+        if curR < 1 or curR + curH - 1 > L or curC < 1 or curC + curW - 1 > L:
             return False
         
         #이동 가능한 경우
@@ -51,9 +51,9 @@ def check(idx, dir): # 큐로 바꿔보기
                 neighR, neighC = location[i][0], location[i][1]
                 neighH, neighW = shield[i][0], shield[i][1]
 
-                if curR <= neighR <= curR + curH - 1 or curR <= neighR + neighH <= curR + curH - 1:  #겹쳐서
+                if curR <= neighR <= curR + curH - 1 or curR <= neighR + neighH - 1 <= curR + curH - 1:  #겹쳐서
                     #옮겨보니 범위 벗어나거나
-                    if not (1<=neighR+dr<=L and 1<=neighR+neighH+dr-1<=L and 1<=neighC+dc<=L and 1<=neighC+neighW+dc-1<=L):
+                    if 1 > neighR+dr or neighR+dr > L or neighR+neighH+dr-1 > 1 or neighR+neighH+dr-1 > L or neighC+dc < 1 or neighC+dc > L or neighC+neighW+dc-1 > 1 or neighC+neighW+dc-1 > L:
                         return False
                     #옮겼더니 벽 있으면 
                     for sr in range(neighR+dr, neighR+dr+neighH):
@@ -61,9 +61,9 @@ def check(idx, dir): # 큐로 바꿔보기
                             if board[sr][sc] == 2:
                                 return False
 
-                if curC <= neighC <= curC + curW - 1 or curC <= neighC + neighW <= curC + curW - 1: #겹쳐서
+                if curC <= neighC <= curC + curW - 1 or curC <= neighC + neighW - 1 <= curC + curW - 1: #겹쳐서
                     #옮겨보니 범위 벗어나거나
-                    if not (1<=neighR+dr<=L and 1<=neighR+neighH+dr-1<=L and 1<=neighC+dc<=L and 1<=neighC+neighW+dc-1<=L):
+                    if 1 > neighR+dr or neighR+dr > L or neighR+neighH+dr-1 > 1 or neighR+neighH+dr-1 > L or neighC+dc < 1 or neighC+dc > L or neighC+neighW+dc-1 > 1 or neighC+neighW+dc-1 > L:
                         return False
                     #벽 있으면 
                     for sr in range(neighR+dr, neighR+dr+neighH):
@@ -99,8 +99,6 @@ def move(idx, dir):
 
                     #이동한 곳에 함정있는지 확인
                     for sr in range(location[i][0], location[i][0]+neighH): 
-                        if not is_live[i]: 
-                            continue
                         for sc in range(location[i][1], location[i][1]+neighW):
                             if board[sr][sc] == 1:
                                 #print("함정",sr,sc)
@@ -125,7 +123,7 @@ for q in range(Q):
     # print("위치확인", location)
     # print("체력확인", hp)
 
-    # print("생존확인", is_live)
+    #print("생존확인", is_live)
 
 ans = 0
 # print(starthp)
