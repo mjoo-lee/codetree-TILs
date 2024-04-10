@@ -39,7 +39,7 @@ def check(idx, dir):
                 neighR, neighC = location[i][0], location[i][1]
                 neighH, neighW = shield[i][0], shield[i][1]
 
-                if newR <= neighR <= newR + newH: #겹쳐서
+                if newR <= neighR <= newR + newH - 1:  #겹쳐서
                     #옮겨보니 범위 벗어나거나
                     if not (1<=neighR+dr<=L and 1<=neighR+neighH+dr-1<=L and 1<=neighC+dc<=L and 1<=neighC+neighW+dc-1<=L):
                         return False
@@ -49,7 +49,7 @@ def check(idx, dir):
                             if board[sr][sc] == 2:
                                 return False
                 
-                if newR <= neighR + neighH <= newR + newH: #겹쳐서
+                if newR <= neighR + neighH <= newR + newH - 1: #겹쳐서
                     #옮겨보니 범위 벗어나거나
                     if not (1<=neighR+dr<=L and 1<=neighR+neighH+dr-1<=L and 1<=neighC+dc<=L and 1<=neighC+neighW+dc-1<=L):
                         return False
@@ -59,7 +59,7 @@ def check(idx, dir):
                             if board[sr][sc] == 2:
                                 return False
 
-                if newC <= neighC <= newC + newW: #겹쳐서
+                if newC <= neighC <= newC + newW - 1: #겹쳐서
                     #옮겨보니 범위 벗어나거나
                     if not (1<=neighR+dr<=L and 1<=neighR+neighH+dr-1<=L and 1<=neighC+dc<=L and 1<=neighC+neighW+dc-1<=L):
                         return False
@@ -69,7 +69,7 @@ def check(idx, dir):
                             if board[sr][sc] == 2:
                                 return False
  
-                if newC <= neighC + neighW <= newC + newW: #겹쳐서
+                if newC <= neighC + neighW <= newC + newW - 1: #겹쳐서
                     #옮겨보니 범위 벗어나거나
                     if not (1<=neighR+dr<=L and 1<=neighR+neighH+dr-1<=L and 1<=neighC+dc<=L and 1<=neighC+neighW+dc-1<=L):
                         return False
@@ -100,7 +100,7 @@ def move(idx, dir):
                 neighH, neighW = shield[i][0], shield[i][1]
 
                 #겹치면
-                if newR <= neighR < newR + newH or newR <= neighR + neighH < newR + newH or newC <= neighC < newC + newW or newC <= neighC + neighW < newC + newW:
+                if newR <= neighR < newR + newH or newR <= neighR + neighH - 1 < newR + newH or newC <= neighC < newC + newW or newC <= neighC + neighW - 1< newC + newW:
                     #print(i,"랑 ",idx,"겹침")
                     location[i] = (neighR + dr, neighC + dc) #위치 업데이트
 
