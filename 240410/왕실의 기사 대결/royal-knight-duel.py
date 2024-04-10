@@ -88,7 +88,7 @@ def move(idx, dir):
     dr, dc = d[dir][0], d[dir][1]
     newR, newC = location[idx][0] + dr, location[idx][1] + dc
     newH, newW = shield[idx][0], shield[idx][1]
-    location[idx] = (newR, newC)
+    location[idx] = (newR, newC) #새로운 곳으로 옮김
 
     for i in range(1,N+1):
             #게임오버 시 건너뜀
@@ -100,7 +100,7 @@ def move(idx, dir):
                 neighH, neighW = shield[i][0], shield[i][1]
 
                 #겹치면
-                if newR <= neighR < newR + newH or newR <= neighR + neighH - 1 < newR + newH or newC <= neighC < newC + newW or newC <= neighC + neighW - 1< newC + newW:
+                if newR <= neighR < newR + newH or newR <= neighR + neighH < newR + newH or newC <= neighC < newC + newW or newC <= neighC + neighW < newC + newW:
                     #print(i,"랑 ",idx,"겹침")
                     location[i] = (neighR + dr, neighC + dc) #위치 업데이트
 
