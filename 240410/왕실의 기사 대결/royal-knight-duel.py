@@ -53,7 +53,7 @@ def check(idx, dir): # 큐로 바꿔보기
 
                 if curR <= neighR <= curR + curH - 1 or curR <= neighR + neighH - 1 <= curR + curH - 1:  #겹쳐서
                     #옮겨보니 범위 벗어나거나
-                    if 1 > neighR+dr or neighR+dr > L or neighR+neighH+dr-1 > 1 or neighR+neighH+dr-1 > L or neighC+dc < 1 or neighC+dc > L or neighC+neighW+dc-1 > 1 or neighC+neighW+dc-1 > L:
+                    if 1 > neighR+dr or neighR+dr > L or neighR+neighH+dr-1 < 1 or neighR+neighH+dr-1 > L or neighC+dc < 1 or neighC+dc > L or neighC+neighW+dc-1 < 1 or neighC+neighW+dc-1 > L:
                         return False
                     #옮겼더니 벽 있으면 
                     for sr in range(neighR+dr, neighR+dr+neighH):
@@ -63,7 +63,7 @@ def check(idx, dir): # 큐로 바꿔보기
 
                 if curC <= neighC <= curC + curW - 1 or curC <= neighC + neighW - 1 <= curC + curW - 1: #겹쳐서
                     #옮겨보니 범위 벗어나거나
-                    if 1 > neighR+dr or neighR+dr > L or neighR+neighH+dr-1 > 1 or neighR+neighH+dr-1 > L or neighC+dc < 1 or neighC+dc > L or neighC+neighW+dc-1 > 1 or neighC+neighW+dc-1 > L:
+                    if 1 > neighR+dr or neighR+dr > L or neighR+neighH+dr-1 < 1 or neighR+neighH+dr-1 > L or neighC+dc < 1 or neighC+dc > L or neighC+neighW+dc-1 < 1 or neighC+neighW+dc-1 > L:
                         return False
                     #벽 있으면 
                     for sr in range(neighR+dr, neighR+dr+neighH):
