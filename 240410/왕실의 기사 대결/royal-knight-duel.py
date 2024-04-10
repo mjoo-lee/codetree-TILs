@@ -28,7 +28,7 @@ def check(idx, dir):
     
 
     #이동 가능한 경우
-    if 1<=newR<=L and 1<=newC<=L and board[newR][newC] != 2:
+    if 1<=newR<=L and 1<=newC<=L and 1<=newR+newH-1<=L and 1<=newC+newW-1<=L and board[newR][newC] != 2:
         for i in range(1,N+1):
             #게임오버 시 건너뜀
             if not is_live[i]:
@@ -100,20 +100,23 @@ def move(idx, dir):
                 neighH, neighW = shield[i][0], shield[i][1]
 
                 #겹치면
-                if newR <= neighR < newR + newH or newR <= neighR + neighH < newR + newH or newC <= neighC < newC + newW or newC <= neighC + neighW < newC + newW:
+                if newR <= neighR < newR + newH or newR <= neighR + neighH - 1 < newR + newH or newC <= neighC < newC + newW or newC <= neighC + neighW - 1 < newC + newW:
                     #print(i,"랑 ",idx,"겹침")
                     location[i] = (neighR + dr, neighC + dc) #위치 업데이트
 
-                    for sr in range(location[i][0], location[i][0]+neighH):
+                    #이동한 곳에 함정있는지 확인
+                    for sr in range(location[i][0], location[i][0]+neighH): 
+                        if not is_live[i]: 
+                            continue
                         for sc in range(location[i][1], location[i][1]+neighW):
                             if board[sr][sc] == 1:
                                 #print("함정",sr,sc)
                                 hp[i] -= 1
 
-                                if hp[i] == 0:
+                                if hp[i] <= 0:
                                     #print("죽음",i)
                                     is_live[i] = False
-                                    continue
+                                    break
 
 
 for q in range(Q):
@@ -129,11 +132,11 @@ for q in range(Q):
     # print("위치확인", location)
     # print("체력확인", hp)
 
-    #print("생존확인", is_live)
+    # print("생존확인", is_live)
 
 ans = 0
-#print(starthp)
-#print(hp)
+# print(starthp)
+# print(hp)
 for i in range(1,N+1):
     if is_live[i]:
         #print(i)
