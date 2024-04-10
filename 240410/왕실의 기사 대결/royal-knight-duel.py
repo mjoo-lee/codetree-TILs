@@ -28,7 +28,7 @@ def check(idx, dir):
     
 
     #이동 가능한 경우
-    if 1<=newR<=L and 1<=newC<=L and 1<=newR+newH-1<=L and 1<=newC+newW-1<=L and board[newR][newC] != 2:
+    if 1<=newR<=L or 1<=newC<=L or 1<=newR+newH-1<=L or 1<=newC+newW-1<=L or board[newR][newC] != 2:
         for i in range(1,N+1):
             #게임오버 시 건너뜀
             if not is_live[i]:
