@@ -23,10 +23,10 @@ def closest(targetR, targetC, t):
     minDist = float('inf')
     minR, minC = float('inf'), float('inf')
     for b in basecamp:
-        if b in prohibited:
+        bR, bC = b
+        if (bR, bC) in prohibited:
             continue
             
-        bR, bC = b
         q = deque()
         q.append((bR, bC, 0))
         visited = set((bR, bC))
@@ -39,7 +39,7 @@ def closest(targetR, targetC, t):
                     
             for dr, dc in d:
                 newR, newC = curR + dr, curC + dc
-                if 1<=newR<=n and 1<=newC<=n and [newR, newC] not in prohibited and (newR, newC) not in visited:
+                if 1<=newR<=n and 1<=newC<=n and (newR, newC) not in prohibited and (newR, newC) not in visited:
                     q.append((newR, newC, cnt+1))
                     visited.add((newR, newC))
 
@@ -70,7 +70,7 @@ def shortestPath(startR, startC, idx):
         for dr, dc in d:
             newR, newC = curR + dr, curC + dc
             #print("new", newR, newC)
-            if 1<=newR<=n and 1<=newC<=n and [newR, newC] not in prohibited and (newR, newC) not in visited:
+            if 1<=newR<=n and 1<=newC<=n and (newR, newC) not in prohibited and (newR, newC) not in visited:
                 q.append(([newR, newC], temp+[[newR, newC]]))
                 visited.add((newR, newC))
     
@@ -99,12 +99,12 @@ def move(board, t):
     if t <= m and not toBase[t]:
         baseR, baseC = closest(targetR, targetC, t)
         #print(baseR, baseC)
-        if [baseR, baseC] not in prohibited:
+        if (baseR, baseC) not in prohibited:
             people[t] = [baseR, baseC] #베이스캠프로 이동
             toBase[t] = True
             moved = True
-            if [baseR, baseC] not in prohibited:
-                prohibited.append([baseR, baseC]) 
+            if (baseR, baseC) not in prohibited:
+                prohibited.add((baseR, baseC)) 
             #print("베이스캠프 이동",people)
 
     # 2. 편의점 향해 1칸 이동
@@ -118,12 +118,12 @@ def move(board, t):
     # 3. 편의점 도착
     if people[t] == convi[t]:
         canMove[t] = False
-        prohibited.append(convi[t])
+        prohibited.add((convi[t][0], convi[t][1]))
         #print(t, "편의점 도착", people)
         return
 
 cnt = 0
-prohibited = []
+prohibited = set()
 toBase = [False for _ in range(1+m)]
 
 while not allout(convi,people):
