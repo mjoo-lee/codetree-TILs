@@ -1,3 +1,26 @@
+n,m,k = map(int, input().split())
+board = [[-1 for _ in range(n+1)]] + [[-1] + list(map(int, input().split())) for _ in range(n)]
+guns = [[[] for _ in range(n+1)] for _ in range(n+1)]
+for i in range(1,n+1):
+    for j in range(1,n+1):
+        if board[i][j] > 0:
+            guns[i][j].append(board[i][j])
+            
+hp = [0 for _ in range(m+1)]
+location = [(-1,-1) for _ in range(m+1)]
+direction = [0 for _ in range(m+1)]
+player_gun = [0 for _ in range(m+1)] #각 참가자가 가진 총 정보	
+points = [0 for _ in range(m+1)]
+
+for i in range(1,m+1):
+    x,y,d,s = map(int, input().split())
+    location[i] = (x,y)
+    direction[i] = d
+    hp[i] = s
+
+dir_ = {0:(-1,0),1:(0,1),2:(1,0),3:(0,-1)}
+
+
 def pickndrop(i):
     curR, curC = location[i]
     curr_gun = player_gun[i]
