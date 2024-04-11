@@ -61,11 +61,7 @@ def shortestPath(startR, startC, idx):
         [curR, curC], temp = q.popleft()
         #print("cur", curR, curC)
         if curR == targetR and curC == targetC:
-            if path:
-                if len(temp) < len(path):
-                    path = temp
-            else:
-                path = temp
+            return temp
    
         for dr, dc in d:
             newR, newC = curR + dr, curC + dc
