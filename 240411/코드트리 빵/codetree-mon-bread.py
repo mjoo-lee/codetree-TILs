@@ -81,7 +81,7 @@ def allout(convi, people):
     return True
         
 
-def move(board, t):
+def move(board, t, prohibited_temp):
     global convi, info, prohibited
     
 
@@ -99,8 +99,7 @@ def move(board, t):
             people[t] = [baseR, baseC] #베이스캠프로 이동
             toBase[t] = True
             moved = True
-            if (baseR, baseC) not in prohibited:
-                prohibited.add((baseR, baseC)) 
+            prohibited_temp.add((baseR, baseC)) 
             #print("베이스캠프 이동",people)
 
     # 2. 편의점 향해 1칸 이동
@@ -114,7 +113,7 @@ def move(board, t):
     # 3. 편의점 도착
     if people[t] == convi[t]:
         canMove[t] = False
-        prohibited.add((convi[t][0], convi[t][1]))
+        prohibited_temp.add((convi[t][0], convi[t][1]))
         #print(t, "편의점 도착", people)
         return
 
@@ -126,16 +125,19 @@ while not allout(convi,people):
     cnt += 1
 #     print(cnt)
 #     print("prohibited",prohibited)
+    prohibited_temp = set()
     if cnt <= m:
         for t in range(1,cnt+1):
 #             print("t",t)
 #             print("처음",people)
-            move(board, t)
+            move(board, t, prohibited_temp)
     else:
         if not allout(convi,people):
             for t in range(1,m+1):
-                move(board,t)
+                move(board,t,prohibited_temp)
     
+    for pos in prohibited_temp:
+        prohibited.add(pos)
     
     
 #     print("convi",convi)
