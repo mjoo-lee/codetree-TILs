@@ -17,6 +17,7 @@ people = [[-1,-1] for _ in range(m+1)] #사람 위치 정보
 from collections import deque
 
 def closest(targetR, targetC, t):
+    global prohibited_temp
     d = [(-1,0),(0,-1),(0,1),(1,0)] #상좌우하
     
     
@@ -34,11 +35,13 @@ def closest(targetR, targetC, t):
         while q:
             curR, curC, cnt = q.popleft()
             if curR == targetR and curC == targetC and (cnt, bR, bC) < (minDist, minR, minC):
-                return bR, bC
-                    
+                minDist = cnt
+                minR, minC = bR, bC
+                #print("베이스캠프",minR,minC)
+                
             for dr, dc in d:
                 newR, newC = curR + dr, curC + dc
-                if 1<=newR<=n and 1<=newC<=n and (newR, newC) not in prohibited and (newR, newC) not in visited:
+                if 1<=newR<=n and 1<=newC<=n and (newR, newC) not in visited and (newR, newC) not in prohibited_temp:
                     q.append((newR, newC, cnt+1))
                     visited.add((newR, newC))
 
@@ -46,7 +49,7 @@ def closest(targetR, targetC, t):
 
 
 def shortestPath(startR, startC, idx):
-    
+    global prohibited_temp
     d = [(-1,0),(0,-1),(0,1),(1,0)] #상좌우하
     
     targetR, targetC = convi[idx]
@@ -60,17 +63,20 @@ def shortestPath(startR, startC, idx):
         [curR, curC], temp = q.popleft()
         #print("cur", curR, curC)
         if curR == targetR and curC == targetC:
-            return temp
+            if path:
+                if len(temp) < len(path):
+                    path = temp
+            else:
+                path = temp
    
         for dr, dc in d:
             newR, newC = curR + dr, curC + dc
             #print("new", newR, newC)
-            if 1<=newR<=n and 1<=newC<=n and (newR, newC) not in prohibited and (newR, newC) not in visited:
+            if 1<=newR<=n and 1<=newC<=n and (newR, newC) not in visited and (newR, newC) not in prohibited_temp:
                 q.append(([newR, newC], temp+[[newR, newC]]))
                 visited.add((newR, newC))
     
-    return temp
-            
+    return path
             
 def allout(convi, people):
     for i in range(1,m+1):
@@ -115,20 +121,21 @@ def move(board, t, prohibited_temp):
         prohibited_temp.add((convi[t][0], convi[t][1]))
         #print(t, "편의점 도착", people)
         return
-
+    
+    
 cnt = 0
 prohibited = set()
 toBase = [False for _ in range(1+m)]
 
 while not allout(convi,people):
     cnt += 1
-    #print(cnt)
-    #print("prohibited",prohibited)
-    prohibited_temp = set()
+#     print(cnt)
+#     print("prohibited",prohibited)
+    prohibited_temp = prohibited
     if cnt <= m:
         for t in range(1,cnt+1):
-            #print("t",t)
-            #print("처음",people)
+#             print("t",t)
+#             print("처음",people)
             move(board, t, prohibited_temp)
     else:
         if not allout(convi,people):
