@@ -65,6 +65,9 @@ def fight(i):
     #진 사람 
     #1. 총내려 놓기
     guns[curR][curC].append(player_gun[loser])
+    guns[curR][curC].sort(reverse=True)
+    if board[curR][curC] < guns[curR][curC][0]:
+        board[curR][curC] = guns[curR][curC][0]
     player_gun[loser] = 0
     
     #2. 원래 방향으로 이동 -> 다른 플레이어 or 범위 밖이면 오른쪽으로 90도 회전
