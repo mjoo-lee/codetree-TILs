@@ -95,7 +95,9 @@ def move_player(i):
     newR, newC = curR + dr, curC + dc
     if newR < 1 or newC < 1 or newR > n or newC > n:
         newR, newC = curR - dr, curC - dc
-        dir_[direction[i]] = (-dr, -dc) #향하는 방향 업데이트
+        for k,v in dir_.items():
+            if v == (-dr, -dc):
+                direction[i] = k #향하는 방향 업데이트
     
     #print(i,"이동 to", newR, newC)
     location[i] = (newR, newC)
