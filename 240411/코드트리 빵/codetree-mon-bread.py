@@ -42,6 +42,8 @@ def closest(targetR, targetC, t):
                     q.append((newR, newC, cnt+1))
                     visited.add((newR, newC))
 
+    return minR, minC
+
 
 def shortestPath(startR, startC, idx):
     
@@ -67,7 +69,7 @@ def shortestPath(startR, startC, idx):
                 q.append(([newR, newC], temp+[[newR, newC]]))
                 visited.add((newR, newC))
     
-    return path
+    return temp
             
             
 def allout(convi, people):
