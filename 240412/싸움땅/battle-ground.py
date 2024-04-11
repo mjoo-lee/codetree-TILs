@@ -49,14 +49,14 @@ def fight(i):
             break
     
     gun1, hp1 = player_gun[i], hp[i]
-    gun2, hp2 = player_gun[j], hp[j]
+    gun2, hp2 = player_gun[other_player], hp[other_player]
 
-    if (hp1+gun1, hp1, i) < (hp2+gun2, hp2, j):
-        winner = j
+    if (hp1+gun1, hp1, i) < (hp2+gun2, hp2, other_player):
+        winner = other_player
         loser = i
     else:
         winner = i
-        loser = j
+        loser = other_player
     
     # print("승자",winner,"패자",loser, "/ 포인트", abs((hp1+gun1) - (hp2+gun2)))
     #이긴 사람 포인트 획득
