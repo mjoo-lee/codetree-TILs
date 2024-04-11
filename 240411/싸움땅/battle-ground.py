@@ -76,7 +76,6 @@ def fight(i):
         #print("패자 방향", direction[loser])
         newdr, newdc = dir_[direction[loser]][0], dir_[direction[loser]][1] #90도 회전
         newR, newC = curR + newdr, curC + newdc
-        direction[loser] = (newR, newC)
     
     #print("패자 이동", newR, newC)
     location[loser] = (newR, newC) #이동
