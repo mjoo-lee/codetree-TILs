@@ -34,16 +34,13 @@ def closest(targetR, targetC, t):
         while q:
             curR, curC, cnt = q.popleft()
             if curR == targetR and curC == targetC and (cnt, bR, bC) < (minDist, minR, minC):
-                minDist = cnt
-                minR, minC = bR, bC
+                return bR, bC
                     
             for dr, dc in d:
                 newR, newC = curR + dr, curC + dc
                 if 1<=newR<=n and 1<=newC<=n and (newR, newC) not in prohibited and (newR, newC) not in visited:
                     q.append((newR, newC, cnt+1))
                     visited.add((newR, newC))
-
-    return minR, minC
 
 
 def shortestPath(startR, startC, idx):
@@ -123,18 +120,18 @@ toBase = [False for _ in range(1+m)]
 
 while not allout(convi,people):
     cnt += 1
-#     print(cnt)
-#     print("prohibited",prohibited)
+    #print(cnt)
+    #print("prohibited",prohibited)
     prohibited_temp = set()
     if cnt <= m:
         for t in range(1,cnt+1):
-#             print("t",t)
-#             print("처음",people)
+            #print("t",t)
+            #print("처음",people)
             move(board, t, prohibited_temp)
     else:
         if not allout(convi,people):
             for t in range(1,m+1):
-                move(board,t,prohibited_temp)
+                move(board, t, prohibited_temp)
     
     for pos in prohibited_temp:
         prohibited.add(pos)
