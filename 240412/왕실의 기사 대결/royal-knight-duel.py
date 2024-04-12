@@ -58,57 +58,45 @@ def check(idx, dir): # 큐로 바꿔보기
                 neighH, neighW = shield[i][0], shield[i][1]
                 
                 if curR <= neighR <= curR + curH - 1 or curR <= neighR + neighH - 1 <= curR + curH - 1 or curC <= neighC <= curC + curW - 1 or curC <= neighC + neighW - 1 <= curC + curW - 1:   #겹쳐서
-                    # #옮겨보니 범위 벗어나거나
-                    # if neighR+dr < 1 or neighR+dr > L or neighR+neighH+dr-1 < 1 or neighR+neighH+dr-1 > L:
-                    #     return False
 
-                    # if neighC+dc < 1 or neighC+dc > L or neighC+neighW+dc-1 < 1 or neighC+neighW+dc-1 > L:
-                    #     return False
-
-                    # #옮겼더니 벽 있으면 
-                    # for sr in range(neighR+dr, neighR+dr+neighH):
-                    #     for sc in range(neighC+dc, neighC+dc+neighW):
-                    #         if board[sr][sc] == 2:
-                    #             return False
-
-                    #print("겹침",neighR, neighC)
-                    q.append((neighR, neighC, i))
-                    visited.add(i)               
+                    q.append((neighR, neighC, i))             
+                    visited.add(i)
 
     return True
 
 def move(idx, dir):
-    global is_live
+    global is_live, hp, location
     dr, dc = d[dir][0], d[dir][1]
     newR, newC = location[idx][0] + dr, location[idx][1] + dc
     newH, newW = shield[idx][0], shield[idx][1]
     location[idx] = (newR, newC) #새로운 곳으로 옮김
 
     for i in range(1,N+1):
+
+        if i != idx:     
             #게임오버 시 건너뜀
             if not is_live[i]:
                 continue
-            
-            if i != idx:     
-                neighR, neighC = location[i][0], location[i][1]
-                neighH, neighW = shield[i][0], shield[i][1]
+        
+            neighR, neighC = location[i][0], location[i][1]
+            neighH, neighW = shield[i][0], shield[i][1]
 
-                #겹치면
-                if newR <= neighR < newR + newH or newR <= neighR + neighH - 1 < newR + newH or newC <= neighC < newC + newW or newC <= neighC + neighW - 1 < newC + newW:
-                    #print(i,"랑 ",idx,"겹침")
-                    location[i] = (neighR + dr, neighC + dc) #위치 업데이트
+            #겹치면
+            if newR <= neighR < newR + newH or newR <= neighR + neighH - 1 < newR + newH or newC <= neighC < newC + newW or newC <= neighC + neighW - 1 < newC + newW:
+                # print(i,"랑 ",idx,"겹침")
+                location[i] = (neighR + dr, neighC + dc) #위치 업데이트
 
-                    #이동한 곳에 함정있는지 확인
-                    for sr in range(location[i][0], location[i][0]+neighH): 
-                        for sc in range(location[i][1], location[i][1]+neighW):
-                            if board[sr][sc] == 1:
-                                #print("함정",sr,sc)
-                                hp[i] -= 1
+                #이동한 곳에 함정있는지 확인
+                for sr in range(location[i][0], location[i][0]+neighH): 
+                    for sc in range(location[i][1], location[i][1]+neighW):
+                        if board[sr][sc] == 1 and is_live[i]:
+                            #print("함정",sr,sc)
+                            hp[i] -= 1
 
-                                if hp[i] <= 0:
-                                    #print("죽음",i)
-                                    is_live[i] = False
-                                    break
+                            if hp[i] <= 0:
+                                #print("죽음",i)
+                                is_live[i] = False
+
 
 
 for q in range(Q):
