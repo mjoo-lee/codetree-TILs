@@ -25,7 +25,7 @@ is_live = [True for _ in range(N+1)]
 def check(idx, dir): # 큐로 바꿔보기
     global is_live
     dr, dc = d[dir][0], d[dir][1]
-    newR, newC = location[idx][0] + dr, location[idx][1] + dc
+    newR, newC = location[idx][0], location[idx][1]
     
     q = deque()
     q.append((newR, newC, idx))
@@ -33,6 +33,8 @@ def check(idx, dir): # 큐로 바꿔보기
 
     while q:
         curR, curC, curidx = q.popleft() #dr, dc 밀린 값 
+        curR += dr
+        curC += dc
         #print(curR, curC, idx)
         curH, curW = shield[curidx][0], shield[curidx][1]
 
@@ -40,6 +42,10 @@ def check(idx, dir): # 큐로 바꿔보기
         if curR < 1 or curR + curH - 1 > L or curC < 1 or curC + curW - 1 > L:
             return False
         
+        for sr in range(curR, curR+curH):
+            for sc in range(curC, curC+curW):
+                if board[sr][sc] == 2:
+                    return False
         #이동 가능한 경우
         for i in range(1,N+1):
             #게임오버 시 건너뜀
@@ -50,21 +56,22 @@ def check(idx, dir): # 큐로 바꿔보기
             if i != curidx and i not in visited:
                 neighR, neighC = location[i][0], location[i][1]
                 neighH, neighW = shield[i][0], shield[i][1]
-
+                
                 if curR <= neighR <= curR + curH - 1 or curR <= neighR + neighH - 1 <= curR + curH - 1 or curC <= neighC <= curC + curW - 1 or curC <= neighC + neighW - 1 <= curC + curW - 1:   #겹쳐서
-                    #옮겨보니 범위 벗어나거나
-                    if 1 > neighR+dr or neighR+dr > L or neighR+neighH+dr-1 < 1 or neighR+neighH+dr-1 > L:
-                        return False
+                    # #옮겨보니 범위 벗어나거나
+                    # if neighR+dr < 1 or neighR+dr > L or neighR+neighH+dr-1 < 1 or neighR+neighH+dr-1 > L:
+                    #     return False
 
-                    if neighC+dc < 1 or neighC+dc > L or neighC+neighW+dc-1 < 1 or neighC+neighW+dc-1 > L:
-                        return False
+                    # if neighC+dc < 1 or neighC+dc > L or neighC+neighW+dc-1 < 1 or neighC+neighW+dc-1 > L:
+                    #     return False
 
-                    #옮겼더니 벽 있으면 
-                    for sr in range(neighR+dr, neighR+dr+neighH):
-                        for sc in range(neighC+dc, neighC+dc+neighW):
-                            if board[sr][sc] == 2:
-                                return False
+                    # #옮겼더니 벽 있으면 
+                    # for sr in range(neighR+dr, neighR+dr+neighH):
+                    #     for sc in range(neighC+dc, neighC+dc+neighW):
+                    #         if board[sr][sc] == 2:
+                    #             return False
 
+                    #print("겹침",neighR, neighC)
                     q.append((neighR, neighC, i))
                     visited.add(i)               
 
