@@ -118,7 +118,7 @@ def squares(board):
     
 
 ans = 0
-print("초기")
+#print("초기")
 ans += calculate_point()
 
 for _ in range(3):
