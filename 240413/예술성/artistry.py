@@ -37,71 +37,25 @@ def make_group():
 
 def calculate_point():
 
-    visited = [[False for _ in range(n)] for _ in range(n)]
-
-    for i in range(n):
-        for j in range(n):
-            if not visited[i][j]:
-                q = deque()
-                q.append((i, j, board[i][j]))
-                cnt = 1
-                visited[i][j] = True
-                
-                while q:
-                    curR, curC, curNum = q.popleft()
-                    for dr,dc in d:
-                        newR, newC = curR + dr, curC + dc
-                        if newR < 0 or newR >= n or newC < 0 or newC >= n:  
-                            continue
-
-                        if board[newR][newC] == curNum and not visited[newR][newC]:
-                            q.append((newR, newC, curNum))
-                            cnt += 1
-                            visited[newR][newC] = True
-                
     #print(group)
     make_group() #그룹화
     point = 0
     
     visited = [[False for _ in range(n)] for _ in range(n)]
-    for i in range(1,group_n):
-        for j in range(i+1, group_n+1):
-            num1, cnt1 = group[i]
-            num2, cnt2 = group[j]
-            print(num1, num2)
-
-            if num1 == num2:
-                continue
-
-            
-            neighboring = 0
-            check = False
-            for r in range(n):
-                if check: break
-                for c in range(n):
-                    if not visited[r][c]:
-                        q = deque()
-                        q.append((r,c))
-
-                        while q:
-                            x, y = q.popleft()
-                            for dr, dc in d:
-                                nx, ny = x+dr, y+dc
-                                if nx < 0 or nx >= n or ny < 0 or ny >= n or visited[nx][ny]:
-                                    continue
-
-                                if board[nx][ny]==num2 and board[x][y]==num1 and board_with_group[nx][ny] == board_with_group[x][y]:
-                                    q.append((nx,ny)) 
-                                    visited[nx][ny] = True
-                                elif board[nx][ny]==num2 and board[x][y]==num1 and board_with_group[nx][ny] != board_with_group[x][y]:
-                                    neighboring+=1
-                                    #visited[nx][ny] = True
-                        #print(neighboring)   
-                        check = True        
-            point += ((cnt1 + cnt2) * num1 * num2 * neighboring)                
+    for r in range(n):
+        for c in range(n):
+            for dr, dc in d:
+                nr, nc = r + dr, c + dc
+                if nr < 0 or nr >= n or nc < 0 or nc >=n or visited[nr][nc]:
+                    continue
+                if board_with_group[r][c] != board_with_group[nr][nc]:
+                    g1, g2 = board_with_group[r][c], board_with_group[nr][nc]
+                    num1, cnt1 = group[g1] 
+                    num2, cnt2 = group[g2]
+                    
+                    point += ((cnt1 + cnt2) * num1 * num2)                
                 
-
-    return point
+    return point//2
 
 def cross(board):
     midR = midC = n//2
@@ -170,8 +124,8 @@ ans += calculate_point()
 for _ in range(3):
     cross(board)
     squares(board)
-    print("회전후")
+    #print("회전후")
     ans += calculate_point()
-    print("============")
+    #print("============")
 
 print(ans)
