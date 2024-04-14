@@ -66,7 +66,7 @@ def move_domang():
                 domang[i] = (newR, newC)
             
 def move_soollae():
-    global soollae, soollae_move, soollae_i, soollae_dir, d, soollae_reverse
+    #global soollae, soollae_move, soollae_i, soollae_dir, d, soollae_reverse
     
     curR, curC = soollae
 
