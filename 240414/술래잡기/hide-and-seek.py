@@ -91,6 +91,7 @@ def move_soollae():
         d = [(-1,0),(0,1),(1,0),(0,-1)]
         soollae_reverse = False
         soollae_dir = -1
+        soollae_i = 0
 
     if soollae_move == turn[soollae_i]:
         soollae_dir = (soollae_dir+1)%4
