@@ -69,6 +69,13 @@ def move_soollae():
     global soollae, soollae_move, soollae_i, soollae_dir, d, soollae_reverse
     
     curR, curC = soollae
+
+    if curR == n//2+1 and curC == n//2+1:
+        d = [(-1,0),(0,1),(1,0),(0,-1)]
+        soollae_reverse = False
+        soollae_dir = 0
+        soollae_i = 0
+
     dr, dc = d[soollae_dir]
     #print("술래cur:",curR,curC)
     #print(soollae_move)
@@ -86,12 +93,6 @@ def move_soollae():
         d = [(1,0),(0,1),(-1,0),(0,-1)] #거꾸로
         soollae_reverse = True
         soollae_dir = -1 #밑에서 +1되는 55번째 줄 있으므로
-        
-    elif newR == n//2+1 and newC == n//2+1:
-        d = [(-1,0),(0,1),(1,0),(0,-1)]
-        soollae_reverse = False
-        soollae_dir = -1
-        soollae_i = 0
 
     if soollae_move == turn[soollae_i]:
         soollae_dir = (soollae_dir+1)%4
